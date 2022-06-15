@@ -6,10 +6,7 @@ from dash.dependencies import Input, Output, State
 from dash import html, dcc
 from dash_canvas import DashCanvas
 from dash_canvas.utils import  parse_jsonstring
-# from dash_canvas.utils import array_to_data_url
-# from PIL import Image
-# from io import BytesIO
-# import base64
+
 import pandas as pd
 import json
 import plotly.graph_objects as go
@@ -119,7 +116,9 @@ app.title=tabtitle
 
 
 app.layout = html.Div(children=[
-        html.H1('Handwritten Digit Classifier'),
+    html.H1('Handwritten Digit Classifier'),
+        html.Div(id='reset-page', key='page', children=[
+
         html.Div([
 
             html.Div([
@@ -136,6 +135,7 @@ app.layout = html.Div(children=[
                     hide_buttons=["zoom", "pan", "line", "pencil", "rectangle", "undo", "select"],
                     goButtonTitle='Submit',
                 ),
+                html.A(html.Button('Reset'), href='/'),
             ], style={"padding-left": "20px", "align":"left"}, className="three columns"),
 
             html.Div([
@@ -158,10 +158,12 @@ app.layout = html.Div(children=[
                 html.H6(id='xgb-probability', children='waiting for inputs'),
             ], className='three columns'),
         ], className="twelve columns"),
+        ]),
         html.Br(),
         html.A('Code on Github', href=githublink),
         html.Br(),
         html.A("Data Source", href=sourceurl),
+
     ], className="twelve columns")
 
 
