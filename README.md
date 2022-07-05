@@ -3,7 +3,7 @@
 View the deployed application here: https://xgb-digit-classifier.herokuapp.com/
 
 This repo demonstrates how to build a classifier using 
-* mnist dataset
+* mnist dataset: https://keras.io/api/datasets/mnist/
 * ensemble classifiers (random forest, xgboost)
 
 Important files:
