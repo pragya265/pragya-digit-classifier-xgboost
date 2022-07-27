@@ -19,11 +19,11 @@ filename = open('model_outputs/scaler.pkl', 'rb')
 scaler = pickle.load(filename)
 filename.close()
 
-filename = open('model_outputs/rf_model.pkl', 'rb')
-rf_model = pickle.load(filename)
+filename = open('analysis/optimization/tree_grid_model.pkl', 'rb')
+tree_model = pickle.load(filename)
 filename.close()
 
-filename = open('model_outputs/xgb_model.pkl', 'rb')
+filename = open('analysis/optimization/xgb_grid_model.pkl', 'rb')
 xgb_model = pickle.load(filename)
 filename.close()
 
@@ -149,9 +149,9 @@ app.layout = html.Div(children=[
             html.Div([
                 html.H3('Predicted Digit'),
                 html.Br(),
-                html.H4('Random Forest Model:'),
-                html.H6(id='rf-prediction', children='...'),
-                html.H6(id='rf-probability', children='waiting for inputs'),
+                html.H4('Decision Tree Model:'),
+                html.H6(id='dt-prediction', children='...'),
+                html.H6(id='dt-probability', children='waiting for inputs'),
                 html.Br(),
                 html.H4('XGBoost Model:'),
                 html.H6(id='xgb-prediction', children='...'),
@@ -170,8 +170,8 @@ app.layout = html.Div(children=[
 ######### CALLBACK
 @app.callback(
                 Output('output-figure', 'figure'),
-                Output('rf-prediction', 'children'),
-                Output('rf-probability', 'children'),
+                Output('dt-prediction', 'children'),
+                Output('dt-probability', 'children'),
                 Output('xgb-prediction', 'children'),
                 Output('xgb-probability', 'children'),
               Input('canvas', 'json_data'))
@@ -204,11 +204,11 @@ def update_data(string):
         # standardize
         some_digit_scaled = scaler.transform([some_digit_array])
 
-        # make a prediction: Random Forest
-        rf_pred = rf_model.predict(some_digit_scaled)
-        rf_prob_array = rf_model.predict_proba(some_digit_scaled)
-        rf_prob = max(rf_prob_array[0])
-        rf_prob=round(rf_prob*100,2)
+        # make a prediction: Decision Tree
+        dt_pred = dt.predict(some_digit_scaled)
+        dt_prob_array = dt.predict_proba(some_digit_scaled)
+        dt_prob = max(dt_prob_array[0])
+        dt_prob=round(dt_prob*100,2)
 
         # make a prediction: XG Boost
         xgb_pred = xgb_model.predict(some_digit_scaled)
@@ -220,7 +220,7 @@ def update_data(string):
         raise PreventUpdate
 
 
-    return   fig,  f'Digit: {rf_pred[0]}', f'Probability: {rf_prob}%', f'Digit: {xgb_pred[0]}', f'Probability: {xgb_prob}%'
+    return   fig,  f'Digit: {dt_pred[0]}', f'Probability: {dt_prob}%', f'Digit: {xgb_pred[0]}', f'Probability: {xgb_prob}%'
 
 
 if __name__ == '__main__':
