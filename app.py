@@ -205,8 +205,8 @@ def update_data(string):
         some_digit_scaled = scaler.transform([some_digit_array])
 
         # make a prediction: Decision Tree
-        dt_pred = dt.predict(some_digit_scaled)
-        dt_prob_array = dt.predict_proba(some_digit_scaled)
+        dt_pred = tree_model.predict(some_digit_scaled)
+        dt_prob_array = tree_model.predict_proba(some_digit_scaled)
         dt_prob = max(dt_prob_array[0])
         dt_prob=round(dt_prob*100,2)
 
